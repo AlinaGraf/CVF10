@@ -21,7 +21,7 @@ public class MemberStoreImpl implements MemberStore {
 	private Integer nextMemberID = 0;
 
 	/** a map of all users, mapped to their unique ID */
-	private Map<Integer, Member> members = new HashMap<Integer, Member>();
+	private Map<Integer, Member> members = new HashMap<Integer, Member>(); // TODO: synchronisation
 
 	/** randomizer used for getting a random member from the store */
 	private Random randomizer = new Random();
@@ -45,7 +45,6 @@ public class MemberStoreImpl implements MemberStore {
 		}
 		return single_instance;
 	}
-
 
 	/**
 	 * {@inheritDoc}
@@ -108,6 +107,19 @@ public class MemberStoreImpl implements MemberStore {
 	/**
 	 * {@inheritDoc}
 	 */
+	public List<Member> getAllMembersWithExactlyNFriends(int nrOfFriends) {
+		ArrayList<Member> filteredMemberList = new ArrayList<Member>();
+		members.values().forEach(m -> {
+			if (m.getNumberOfFriends() == nrOfFriends) {
+				filteredMemberList.add(m);
+			}
+		});
+		return filteredMemberList;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<Member> getAllMembers() {
 		ArrayList<Member> allMembers = new ArrayList<Member>();
 		allMembers.addAll(members.values());
@@ -120,6 +132,11 @@ public class MemberStoreImpl implements MemberStore {
 	public void removeAllMembers() {
 		members.clear();
 		nextMemberID = 0;
+	}
+
+	@Override
+	public int getNumberOfMembers() {
+		return members.size();
 	}
 
 }

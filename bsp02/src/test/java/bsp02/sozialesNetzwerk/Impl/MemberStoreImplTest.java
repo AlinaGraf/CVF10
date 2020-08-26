@@ -49,11 +49,11 @@ public class MemberStoreImplTest {
 	@Test
 	public void testAddNewMember() {
 		Member m1 = ms.addNewMember();
-		Assert.assertSame(0, m1.getId());
+		Assert.assertSame(0, m1.getID());
 		Member m2 = ms.addNewMember();
-		Assert.assertSame(1, m2.getId());
+		Assert.assertSame(1, m2.getID());
 		Member m3 = ms.addNewMember();
-		Assert.assertSame(2, m3.getId());
+		Assert.assertSame(2, m3.getID());
 	}
 
 	/**
@@ -65,9 +65,9 @@ public class MemberStoreImplTest {
 		Member m1 = ms.addNewMember();
 		Member m2 = ms.addNewMember();
 		Member m3 = ms.addNewMember();
-		Assert.assertSame(m1, ms.getMember(m1.getId()).get());
-		Assert.assertSame(m2, ms.getMember(m2.getId()).get());
-		Assert.assertSame(m3, ms.getMember(m3.getId()).get());
+		Assert.assertSame(m1, ms.getMember(m1.getID()).get());
+		Assert.assertSame(m2, ms.getMember(m2.getID()).get());
+		Assert.assertSame(m3, ms.getMember(m3.getID()).get());
 
 	}
 
@@ -149,7 +149,7 @@ public class MemberStoreImplTest {
 	private void givenNumberOfMembersInMSIs(int nrMembers) {
 		for (int i = 0; i < nrMembers; i++) {
 			Member member = ms.addNewMember();
-			Assert.assertSame(i, member.getId());
+			Assert.assertSame(i, member.getID());
 		}
 	}
 
@@ -166,6 +166,26 @@ public class MemberStoreImplTest {
 		givenXMembersHaveYFriends(nrMem, nrFriends);
 		whenGetAllMembersWithMaxFriendsCalled(nrFriends - 1);
 		thenTheNumberOfMembersIs(totalNrMembers - nrMem);
+	}
+
+	/**
+	 * Test method for
+	 * {@link bsp02.sozialesNetzwerk.Impl.MemberStoreImpl#getAllMembersWithExactlyNFriends(int)}.
+	 */
+	@Test
+	public void testGetAllMembersWithExactlyNFriends() {
+		int totalNrMembers = 20;
+		int nrMem = 5;
+		int nrFriends = 7;
+		givenNumberOfMembersInMSIs(totalNrMembers);
+		givenXMembersHaveYFriends(nrMem, nrFriends);
+		whenGetAllMembersWithExactlyNFriendsCalled(nrFriends);
+		thenTheNumberOfMembersIs(nrMem);
+	}
+
+	private void whenGetAllMembersWithExactlyNFriendsCalled(int nrFriends) {
+		filteredMemberList = ms.getAllMembersWithExactlyNFriends(nrFriends);
+		
 	}
 
 	/**
@@ -194,7 +214,7 @@ public class MemberStoreImplTest {
 		whenGetAllMembersWithMinFriendsCalled(nrFriends);
 		thenTheNumberOfMembersIs(0);
 	}
-	
+
 	/**
 	 * Test method for
 	 * {@link bsp02.sozialesNetzwerk.Impl.MemberStoreImpl#getAllMembers()}.

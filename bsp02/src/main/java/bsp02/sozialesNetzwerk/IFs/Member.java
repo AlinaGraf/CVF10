@@ -1,7 +1,7 @@
 package bsp02.sozialesNetzwerk.IFs;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 /**
  * 
@@ -15,7 +15,7 @@ public interface Member {
 	/**
 	 * @return the unique ID of the member
 	 */
-	Integer getId();
+	Integer getID();
 
 	/**
 	 * Adds the given member as friend unless already friended
@@ -50,7 +50,12 @@ public interface Member {
 	List<Integer> getFriends();
 
 	/**
-	 * @return the list of sent messages
+	 * @return the last sent V1 message
 	 */
-	List<Message> getMessages();
+	Optional<Message> getLastMessageV1();
+
+	/**
+	 * @return the last sent V2 message
+	 */
+	Optional<Message> getLastMessageV2();
 }

@@ -3,11 +3,9 @@
  */
 package bsp02.sozialesNetzwerk.Impl;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -53,15 +51,15 @@ public class MemberImplTest {
 	}
 
 	/**
-	 * Test method for {@link bsp02.sozialesNetzwerk.Impl.MemberImpl#getId()}.
+	 * Test method for {@link bsp02.sozialesNetzwerk.Impl.MemberImpl#getID()}.
 	 */
 	@Test
 	public void testGetId() {
 		givenMembersInMS();
-		Assert.assertSame(0, m1.getId());
-		Assert.assertSame(1, m2.getId());
-		Assert.assertSame(2, m3.getId());
-		Assert.assertSame(3, m4.getId());
+		Assert.assertSame(0, m1.getID());
+		Assert.assertSame(1, m2.getID());
+		Assert.assertSame(2, m3.getID());
+		Assert.assertSame(3, m4.getID());
 	}
 
 	/**
@@ -102,7 +100,7 @@ public class MemberImplTest {
 
 	private void addFriend(Member m1, Member f1) {
 		m1.addFriend(f1);
-		expFriends.add(f1.getId());
+		expFriends.add(f1.getID());
 	}
 
 	/**
@@ -141,14 +139,24 @@ public class MemberImplTest {
 		givenMembersInMS();
 		givenFriendsAdded();
 		whenV1MsgIsSent();
-		thenTheMessageWasSentToRecs(2);
+		thenTheV1MessageWasSentToRecs(2);
 	}
 
-	private void thenTheMessageWasSentToRecs(int i) {
-		List<Message> messages = m1.getMessages();
-		Assert.assertEquals(1, messages.size());
-
-		Message message = messages.get(0);
+	private void thenTheV1MessageWasSentToRecs(int i) {
+		Optional<Message> messageOpt = m1.getLastMessageV1();
+		if(messageOpt.isEmpty()) {
+			Assert.fail();
+		}
+		Message message = messageOpt.get();
+		Assert.assertEquals(i, message.getNumberOfRecipients());
+	}
+	
+	private void thenTheV2MessageWasSentToRecs(int i) {
+		Optional<Message> messageOpt = m1.getLastMessageV2();
+		if(messageOpt.isEmpty()) {
+			Assert.fail();
+		}
+		Message message = messageOpt.get();
 		Assert.assertEquals(i, message.getNumberOfRecipients());
 	}
 
@@ -175,7 +183,7 @@ public class MemberImplTest {
 		givenMembersInMS();
 		givenFriendsAdded();
 		whenV2MsgIsSent();
-		thenTheMessageWasSentToRecs(3);
+		thenTheV2MessageWasSentToRecs(3);
 	}
 
 	private void whenV2MsgIsSent() {
@@ -194,9 +202,9 @@ public class MemberImplTest {
 		m4.addFriend(m2);
 		m4.addFriend(m3);
 
-		expFriends.add(m1.getId());
-		expFriends.add(m2.getId());
-		expFriends.add(m3.getId());
+		expFriends.add(m1.getID());
+		expFriends.add(m2.getID());
+		expFriends.add(m3.getID());
 
 		Assert.assertEquals(expFriends, m4.getFriends());
 	}

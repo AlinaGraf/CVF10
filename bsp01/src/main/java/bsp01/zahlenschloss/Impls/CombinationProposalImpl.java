@@ -1,6 +1,5 @@
 package bsp01.zahlenschloss.Impls;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import bsp01.zahlenschloss.IFs.Combination;

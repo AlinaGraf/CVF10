@@ -30,7 +30,7 @@ keine Freunde hat.
 Wir führen auch eine Zeitangabe für unsere Simulation ein. Der erste Tag hat den Wert 0, für jeden
 weiteren Tag zählen wir 1 dazu. Unsere Simulation startet am Tag 0 mit 10.000 Personen und der
 oben angegebenen Verteilung. Jeden Tag bekommen Personen neue Freunde und das Netzwerk
-wächst:
+wächst*:
 - Personen, die höchstens 25 Freunde haben, bekommen einen neuen Freund, der schon im
 unserem Netzwerk war und einen neuen Freund, der neu ins Netzwerk dazukommt
 - Personen, die mehr als 25 Freunde haben, bekommen einen neuen Freund, der schon im
@@ -44,8 +44,11 @@ Für jeden Tag soll die Anzahl der Personen im Netzwerk und für eine beliebige 
 der erreichten Personen in eine Datei (nur Text) ausgegeben werden.
 
 Beispiel für die Ausgabe:
-Tag 0 - Anzahl Personen 10.000
+Tag 0 - Anzahl Personen 10.000*
 Nachricht Variante 1 hat 40 Personen erreicht und Nachricht Variante 2 hat 2000 Personen erreicht
 Tag 1 - Anzahl Personen 11.000
 Nachricht Variante 1 hat 60 Personen erreicht und Nachricht Variante 2 hat 3000 Personen erreicht
 Die Simulation ist für eine variable Anzahl an Tagen durchzuführen.
+
+
+* Annahme: inkl. Tag 0 -> Tag 0 -> #P>10000

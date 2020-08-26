@@ -1,9 +1,7 @@
 package bsp02.sozialesNetzwerk.Impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import bsp02.sozialesNetzwerk.IFs.Member;
@@ -25,7 +23,8 @@ public class MemberImpl implements Member {
 	private Integer memberId;
 
 	/** messages mapped to the time they were sent */
-	Map<Long, Message> messages = new HashMap<Long, Message>();
+	List<Message> messagesV1 = new ArrayList<Message>();
+	List<Message> messagesV2 = new ArrayList<Message>();
 
 	/**
 	 * 
@@ -38,7 +37,7 @@ public class MemberImpl implements Member {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Integer getId() {
+	public Integer getID() {
 		return memberId;
 	}
 
@@ -46,9 +45,10 @@ public class MemberImpl implements Member {
 	 * {@inheritDoc}
 	 */
 	public void addFriend(Member newFriend) {
-		Integer newFriendID = newFriend.getId();
+		Integer newFriendID = newFriend.getID();
 		if (!newFriendID.equals(this.memberId) && !friends.contains(newFriendID)) {
 			friends.add(newFriendID);
+			newFriend.addFriend(this);
 		}
 	}
 
@@ -115,7 +115,11 @@ public class MemberImpl implements Member {
 	private void sendMessage(String msgContent, List<Integer> recipients, TypeOfMessage msgType) {
 		Message msg = new MessageImpl(msgContent, recipients, System.currentTimeMillis(), msgType);
 		// send msg to rec.
-		messages.put(msg.getMessageSentTime(), msg);
+		if (msgType.equals(TypeOfMessage.V1)) {
+			messagesV1.add(msg);
+		} else {
+			messagesV2.add(msg);
+		}
 	}
 
 	/**
@@ -175,10 +179,21 @@ public class MemberImpl implements Member {
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<Message> getMessages() {
-		List<Message> msgs = new ArrayList<>();
-		msgs.addAll(messages.values());
-		return msgs;
+	public Optional<Message> getLastMessageV1() {
+		if (messagesV1.size() > 0) {
+			return Optional.ofNullable(messagesV1.get(messagesV1.size() - 1));
+		}
+		return Optional.empty();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public Optional<Message> getLastMessageV2() {
+		if (messagesV2.size() > 0) {
+			return Optional.ofNullable(messagesV2.get(messagesV2.size() - 1));
+		}
+		return Optional.empty();
 	}
 
 }

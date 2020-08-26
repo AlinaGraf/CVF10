@@ -44,6 +44,14 @@ public interface MemberStore {
 	 * @return all members with at least the given number of friends
 	 */
 	List<Member> getAllMembersWithMinFriends(int minNrOfFriends);
+	
+	/**
+	 * Returns a list of members filtered by the number of friends they have
+	 * @param nrOfFriends the number of friends to filter by
+	 * @return all members with exactly the given number of friends
+	 */
+	List<Member> getAllMembersWithExactlyNFriends(int nrOfFriends);
+	
 
 	/**
 	 * @return all members in the store
@@ -54,4 +62,9 @@ public interface MemberStore {
 	 * Clears out the store
 	 */
 	void removeAllMembers();
+
+	/**
+	 * @return the number of members
+	 */
+	int getNumberOfMembers();
 }
