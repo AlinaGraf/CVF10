@@ -1,13 +1,15 @@
 Aufgabe 2: Soziales Netzwerk
 Teil A
 Wir wollen ein neues soziales Netzwerk entwickeln. Unser Netzwerk kann beliebig viele Personen als
-Mitglied haben. Personen können beliebig viele Freunde haben. Freunde sind Personen aus dem
+Mitglied haben. Personen kÃ¶nnen beliebig viele Freunde haben. Freunde sind Personen aus dem
 Netzwerk.
-Personen können Nachrichten versenden. Es gibt zwei Varianten an wen die Nachrichten versendet
-werden können:
+
+Personen kÃ¶nnen Nachrichten versenden. Es gibt zwei Varianten an wen die Nachrichten versendet
+werden kÃ¶nnen:
 - Variante 1: An Freunde und Freunde von Freunden.
-- Variante 2: An alle, die man über Freundschaftsbeziehungen erreichen kann (Freunde von
+- Variante 2: An alle, die man Ã¼ber Freundschaftsbeziehungen erreichen kann (Freunde von
 Freunden von Freunden und so weiter)
+
 An der Person ist zu erfassen, wann und welche Nachrichten versendet wurden.
 
 Teil B
@@ -16,32 +18,35 @@ bekommen haben. Die ermittelte Anzahl soll an der Nachricht abgelegt werden.
 
 
 Teil C : Simulation 1
-Für unser soziales Netzwerk wollen wir auch eine Simulation implementieren.
+FÃ¼r unser soziales Netzwerk wollen wir auch eine Simulation implementieren.
 Wir gehen davon aus, dass 10.000 Personen im sozialen Netzwerk sind.
 Weiter nehmen wir an:
 - 50 Personen haben 10 Freunde (Gruppe A)
 - 30 Personen haben 20 Freunde (Gruppe B)
 - 15 Personen haben 40 Freunde (Gruppe C)
 - 5 Personen haben 80 Freunde (Gruppe D)
-Die restlichen Personen können beliebig viele Freunde haben. Es ist auch möglich, dass eine Person
+Die restlichen Personen kÃ¶nnen beliebig viele Freunde haben. Es ist auch mÃ¶glich, dass eine Person
 keine Freunde hat.
-Wir führen auch eine Zeitangabe für unsere Simulation ein. Der erste Tag hat den Wert 0, für jeden
-weiteren Tag zählen wir 1 dazu. Unsere Simulation startet am Tag 0 mit 10.000 Personen und der
+
+Wir fÃ¼hren auch eine Zeitangabe fÃ¼r unsere Simulation ein. Der erste Tag hat den Wert 0, fÃ¼r jeden
+weiteren Tag zÃ¤hlen wir 1 dazu. Unsere Simulation startet am Tag 0 mit 10.000 Personen und der
 oben angegebenen Verteilung. Jeden Tag bekommen Personen neue Freunde und das Netzwerk
-wächst:
-- Personen, die höchstens 25 Freunde haben, bekommen einen neuen Freund, der schon im
+wÃ¤chst:
+- Personen, die hÃ¶chstens 25 Freunde haben, bekommen einen neuen Freund, der schon im
 unserem Netzwerk war und einen neuen Freund, der neu ins Netzwerk dazukommt
 - Personen, die mehr als 25 Freunde haben, bekommen einen neuen Freund, der schon im
 Netzwerk war und drei, die neu ins Netzwerk dazukommen
 Personen, die neu ins Netzwerk dazukommen, haben an ihrem ersten Tag im Netzwerk also einen
 Freund.
+
 Jeden Tag versendet jede Person im Netzwerk zwei Nachrichten (eine Nachricht Variante 1 und eine
 Variante 2).
-Für jeden Tag soll die Anzahl der Personen im Netzwerk und für eine beliebige Person die Anzahl
+FÃ¼r jeden Tag soll die Anzahl der Personen im Netzwerk und fÃ¼r eine beliebige Person die Anzahl
 der erreichten Personen in eine Datei (nur Text) ausgegeben werden.
-Beispiel für die Ausgabe:
-Tag 0 – Anzahl Personen 10.000
+
+Beispiel fÃ¼r die Ausgabe:
+Tag 0 - Anzahl Personen 10.000
 Nachricht Variante 1 hat 40 Personen erreicht und Nachricht Variante 2 hat 2000 Personen erreicht
-Tag 1 – Anzahl Personen 11.000
+Tag 1 - Anzahl Personen 11.000
 Nachricht Variante 1 hat 60 Personen erreicht und Nachricht Variante 2 hat 3000 Personen erreicht
-Die Simulation ist für eine variable Anzahl an Tagen durchzuführen.
+Die Simulation ist fÃ¼r eine variable Anzahl an Tagen durchzufÃ¼hren.
