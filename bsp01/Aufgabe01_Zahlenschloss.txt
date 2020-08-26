@@ -1,0 +1,13 @@
+Aufgabe 1: Zahlenschloss
+
+Ein Fahrrad-Zahlenschloss besteht aus Ringen mit den Ziffern 0 bis 9. Ringe können aufwärts und abwärts gedreht werden.
+
+Beim Absperren soll das Schloss auf eine Kombination mit gleichen Ziffern gestellt werden. Hierzu soll ein Tool geschrieben werden, das zu einer beliebigen Startkombination die Einstellungen mit gleichen Ziffern findet, die mit der minimalen Anzahl an Drehungen am Schloss erreicht werden können. Es soll sowohl die Anzahl an Drehungen, als auch die Ziffern der Kombinationen bestimmt werden.
+
+Beispiele
+Startkombination 	Kombinationen 				Anzahl an Drehungen 
+1-1-1-1 			1-1-1-1 					mit 0 Drehungen erreicht
+1-1-9-9 			0-0-0-0 1-1-1-1 9-9-9-9 	jeweils mit 4 Drehungen erreicht
+
+Weitere Anforderungen
+Die API des Tools kann frei gewählt werden, es muss aber möglich sein die Ziffern einer Startkombination zu übergeben (z.B. als String, int, Collection, Array…) und die minimale Anzahl an Drehungen sowie die Ziffern der Kombinationen programmatisch abzurufen. Diese API soll in Unit-Tests verwendet werden. Eine grafische Benutzeroberfläche ist nicht notwendig.
