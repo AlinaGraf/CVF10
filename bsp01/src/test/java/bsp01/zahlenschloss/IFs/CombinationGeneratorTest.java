@@ -3,12 +3,10 @@
  */
 package bsp01.zahlenschloss.IFs;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -114,13 +112,13 @@ public class CombinationGeneratorTest {
 			expectedCombinations.add(new CombinationImpl(is[0], is[1], is[2], is[3]));
 		}
 
-		assertEquals(expectedTurns, result.getNumberOfTurns());
-		assertEquals(expectedCombinations.size(), result.getCombinations().size());
-		assertEquals(expectedCombinations.toString(), result.getCombinations().toString());
+		Assert.assertEquals(expectedTurns, result.getNumberOfTurns());
+		Assert.assertEquals(expectedCombinations.size(), result.getCombinations().size());
+		Assert.assertEquals(expectedCombinations.toString(), result.getCombinations().toString());
 
 	}
 
 	private void thenAnErrorShouldOccur() {
-		assertTrue(exceptionOccurred);
+		Assert.assertTrue(exceptionOccurred);
 	}
 }
