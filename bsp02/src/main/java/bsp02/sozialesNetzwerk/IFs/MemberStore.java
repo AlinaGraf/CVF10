@@ -15,11 +15,12 @@ public interface MemberStore {
 	Member addNewMember();
 
 	Member getRandomMember();
-
+	
 	ArrayList<Member> getAllMembersWithMaxFriends(int maxNrOfFriends);
 
 	ArrayList<Member> getAllMembersWithMinFriends(int minNrOfFriends);
 
 	ArrayList<Member> getAllMembers();
 
+	void removeAllMembers();
 }

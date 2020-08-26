@@ -9,7 +9,6 @@ werden können:
 - Variante 1: An Freunde und Freunde von Freunden.
 - Variante 2: An alle, die man über Freundschaftsbeziehungen erreichen kann (Freunde von
 Freunden von Freunden und so weiter)
-
 An der Person ist zu erfassen, wann und welche Nachrichten versendet wurden.
 
 Teil B
