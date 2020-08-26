@@ -1,6 +1,7 @@
 package bsp02.sozialesNetzwerk.IFs;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Manages all Members in the social network
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public interface MemberStore {
 	// wegen Aufgabenstellung simplifiziert (z.B. Mitglieder können nicht
-	// ausstiegen, keine DB, ..)
+	// ausstiegen, keine DB, keine Syncronisierung ..)
 	
 	/**
 	 * Creates & adds a new member to the store
@@ -22,13 +23,13 @@ public interface MemberStore {
 	 * Returns a random member from the store
 	 * @return a random member from the store
 	 */
-	Member getMember(Integer memberID);
+	Optional<Member> getMember(Integer memberID);
 	
 	/**
 	 * Returns a random member from the store
 	 * @return a random member from the store
 	 */
-	Member getRandomMember();
+	Optional<Member> getRandomMember();
 	
 	/**
 	 * Returns a list of members filtered by the number of friends they have

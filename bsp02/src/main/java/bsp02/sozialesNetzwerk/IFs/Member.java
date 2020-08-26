@@ -18,9 +18,9 @@ public interface Member {
 	Integer getId();
 
 	/**
-	 * Adds the given member to the friends list
+	 * Adds the given member as friend unless already friended
 	 * 
-	 * @param m the member to add to the friends list
+	 * @param the member to add as a friend
 	 */
 	void addFriend(Member m);
 
@@ -40,12 +40,12 @@ public interface Member {
 	void sendMessageV2(String message);
 
 	/**
-	 * @return the number of friends
+	 * @return the member's number of friends
 	 */
 	int getNumberOfFriends();
 
 	/**
-	 * @return the list of friends
+	 * @return the member's list of friends
 	 */
 	List<Integer> getFriends();
 

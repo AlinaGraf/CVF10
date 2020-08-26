@@ -4,6 +4,7 @@
 package bsp02.sozialesNetzwerk.Impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -21,6 +22,7 @@ public class MemberStoreImplTest {
 
 	private final MemberStore ms = MemberStoreImpl.getInstance();
 	private List<Member> filteredMemberList;
+	private Optional<Member> member;
 
 	/**
 	 * 
@@ -37,6 +39,7 @@ public class MemberStoreImplTest {
 	public void tearDown() throws Exception {
 		ms.removeAllMembers();
 		filteredMemberList = null;
+		member = null;
 	}
 
 	/**
@@ -62,9 +65,50 @@ public class MemberStoreImplTest {
 		Member m1 = ms.addNewMember();
 		Member m2 = ms.addNewMember();
 		Member m3 = ms.addNewMember();
-		Assert.assertSame(m1, ms.getMember(m1.getId()));
-		Assert.assertSame(m2, ms.getMember(m2.getId()));
-		Assert.assertSame(m3, ms.getMember(m3.getId()));
+		Assert.assertSame(m1, ms.getMember(m1.getId()).get());
+		Assert.assertSame(m2, ms.getMember(m2.getId()).get());
+		Assert.assertSame(m3, ms.getMember(m3.getId()).get());
+
+	}
+
+	/**
+	 * Test method for
+	 * {@link bsp02.sozialesNetzwerk.Impl.MemberStoreImpl#getMember()}.
+	 */
+	@Test
+	public void testGetMemberWithEmptyStore() {
+		givenStoreIsEmpty();
+		whenGetMemberIsCalled();
+		thenAnEmptyValueIsReturned();
+	}
+
+	/**
+	 * Test method for
+	 * {@link bsp02.sozialesNetzwerk.Impl.MemberStoreImpl#getRandomMember()}.
+	 */
+	@Test
+	public void testGetRandomMemberWithEmptyStore() {
+		givenStoreIsEmpty();
+		whenGetRandomMemberIsCalled();
+		thenAnEmptyValueIsReturned();
+	}
+
+	private void whenGetRandomMemberIsCalled() {
+		member = ms.getRandomMember();
+	}
+
+	private void thenAnEmptyValueIsReturned() {
+		Assert.assertTrue(member.isEmpty());
+
+	}
+
+	private void whenGetMemberIsCalled() {
+		member = ms.getMember(0);
+
+	}
+
+	private void givenStoreIsEmpty() {
+		ms.removeAllMembers();
 
 	}
 
@@ -75,9 +119,11 @@ public class MemberStoreImplTest {
 	@Test
 	public void testGetRandomMember() {
 		givenNumberOfMembersInMSIs(20);
-		Member m1 = ms.getRandomMember();
-		Member m2 = ms.getRandomMember();
-		Assert.assertNotSame(m1, m2);
+		Member m1 = ms.getRandomMember().get();
+		Member m2 = ms.getRandomMember().get();
+		Member m3 = ms.getRandomMember().get();
+		Member m4 = ms.getRandomMember().get();
+		Assert.assertFalse(m1.equals(m2) && m3.equals(m4) && m4.equals(m1));
 	}
 
 	/**
@@ -137,6 +183,18 @@ public class MemberStoreImplTest {
 		thenTheNumberOfMembersIs(nrMem);
 	}
 
+	/**
+	 * Test method for
+	 * {@link bsp02.sozialesNetzwerk.Impl.MemberStoreImpl#getAllMembersWithMinFriends(int)}.
+	 */
+	@Test
+	public void testGetAllMembersWithMinFriendsWithEmptyStore() {
+		int nrFriends = 12;
+		givenStoreIsEmpty();
+		whenGetAllMembersWithMinFriendsCalled(nrFriends);
+		thenTheNumberOfMembersIs(0);
+	}
+	
 	/**
 	 * Test method for
 	 * {@link bsp02.sozialesNetzwerk.Impl.MemberStoreImpl#getAllMembers()}.

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 
 import bsp02.sozialesNetzwerk.IFs.Member;
@@ -16,8 +17,8 @@ import bsp02.sozialesNetzwerk.IFs.MemberStore;
  */
 public class MemberStoreImpl implements MemberStore {
 
-	/** the next free Member Id */
-	private Integer nextId = 0;
+	/** the next free Member ID */
+	private Integer nextMemberID = 0;
 
 	/** a map of all users, mapped to their unique ID */
 	private Map<Integer, Member> members = new HashMap<Integer, Member>();
@@ -35,6 +36,9 @@ public class MemberStoreImpl implements MemberStore {
 
 	}
 
+	/**
+	 * @return the single instance of the {@link MemberStore}
+	 */
 	public static MemberStoreImpl getInstance() {
 		if (single_instance == null) {
 			single_instance = new MemberStoreImpl();
@@ -43,43 +47,40 @@ public class MemberStoreImpl implements MemberStore {
 	}
 
 
-	
 	/**
-	 * Creates a new Member and adds it to the Store
-	 * 
-	 * @return the newly created member
+	 * {@inheritDoc}
 	 */
 	public Member addNewMember() {
-		MemberImpl newMember = new MemberImpl(nextId);
-		members.put(nextId, newMember);
-		nextId++;
+		MemberImpl newMember = new MemberImpl(nextMemberID);
+		members.put(nextMemberID, newMember);
+		nextMemberID++;
 		return newMember;
 	}
-	
-	
-	
+
 	/**
-	 * Returns the member with the given ID
-	 * @return the member with the given ID
-	 *@throws NullPointerException if the memberID does not exist
+	 * {@inheritDoc}
 	 */
-	public Member getMember(Integer memberID) {
-		return members.get(memberID);
+	public Optional<Member> getMember(Integer memberID) {
+		if (!members.isEmpty() && members.containsKey(memberID)) {
+
+			return Optional.ofNullable(members.get(memberID));
+		}
+		return Optional.empty();
 	}
 
 	/**
-	 * @return a random member from the store
+	 * {@inheritDoc}
 	 */
-	public Member getRandomMember() {
-		int rMemId = randomizer.nextInt(members.size());
-		return members.get(rMemId);
+	public Optional<Member> getRandomMember() {
+		if (members.size() > 0) {
+			int randomMemberID = randomizer.nextInt(members.size());
+			return Optional.ofNullable(members.get(randomMemberID));
+		}
+		return Optional.empty();
 	}
 
 	/**
-	 * Returns a list of members with the given max. number of friends
-	 * 
-	 * @param the maximum number of friends to filter the members by
-	 * @return the list of members filtered by number of friends
+	 * {@inheritDoc}
 	 */
 	public List<Member> getAllMembersWithMaxFriends(int maxNrOfFriends) {
 		ArrayList<Member> filteredMemberList = new ArrayList<Member>();
@@ -92,10 +93,7 @@ public class MemberStoreImpl implements MemberStore {
 	}
 
 	/**
-	 * Returns a list of members with the given min. number of friends
-	 * 
-	 * @param the minimum number of friends to filter the members by
-	 * @return the list of members filtered by number of friends
+	 * {@inheritDoc}
 	 */
 	public List<Member> getAllMembersWithMinFriends(int minNrOfFriends) {
 		ArrayList<Member> filteredMemberList = new ArrayList<Member>();
@@ -108,7 +106,7 @@ public class MemberStoreImpl implements MemberStore {
 	}
 
 	/**
-	 * @return a list of all members in the MemberStore
+	 * {@inheritDoc}
 	 */
 	public List<Member> getAllMembers() {
 		ArrayList<Member> allMembers = new ArrayList<Member>();
@@ -117,12 +115,11 @@ public class MemberStoreImpl implements MemberStore {
 	}
 
 	/**
-	 * removes all members from the memberStore
+	 * {@inheritDoc}
 	 */
 	public void removeAllMembers() {
 		members.clear();
-		nextId = 0;
-
+		nextMemberID = 0;
 	}
 
 }

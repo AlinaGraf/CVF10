@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import bsp02.sozialesNetzwerk.IFs.Member;
 import bsp02.sozialesNetzwerk.IFs.Message;
@@ -14,6 +15,7 @@ import bsp02.sozialesNetzwerk.IFs.Message;
  */
 public class MemberImpl implements Member {
 
+	/** the member store */
 	MemberStoreImpl mStore = MemberStoreImpl.getInstance();
 
 	/** List of Friends */
@@ -34,16 +36,14 @@ public class MemberImpl implements Member {
 	}
 
 	/**
-	 * @return the member's ID
+	 * {@inheritDoc}
 	 */
 	public Integer getId() {
 		return memberId;
 	}
 
 	/**
-	 * Adds the given member to the friend list unless it's already contained
-	 * 
-	 * @param the member to add as a friend
+	 * {@inheritDoc}
 	 */
 	public void addFriend(Member newFriend) {
 		Integer newFriendID = newFriend.getId();
@@ -53,30 +53,56 @@ public class MemberImpl implements Member {
 	}
 
 	/**
-	 * @return the number of members in the friend list
+	 * {@inheritDoc}
 	 */
 	public int getNumberOfFriends() {
 		return getFriends().size();
 	}
 
 	/**
-	 * Send a message to all friends and their friends
+	 * {@inheritDoc}
 	 */
 	public void sendMessageV1(String msgContent) {
-		ArrayList<Integer> recipients = new ArrayList<Integer>();
-		for (Integer friend : friends) {
-			addFriendsAsRecipient(recipients, friend);
-		}
-		sendMessage(msgContent, recipients, TypeOfMessage.V1);
+		sendMessage(msgContent, compileRecipientsListV1(), TypeOfMessage.V1);
 	}
 
-	private void addFriendsAsRecipient(ArrayList<Integer> recipients, Integer friendID) {
-		addAsRecipient(recipients, friendID);
-		Member member = mStore.getMember(friendID);
-		for (Integer fID : member.getFriends()) {
-			addAsRecipient(recipients, fID);
+	/**
+	 * @return the recipients list for a V1 message
+	 */
+	private ArrayList<Integer> compileRecipientsListV1() {
+		ArrayList<Integer> recipients = new ArrayList<Integer>();
+		for (Integer friendID : friends) {
+			addFriendAndFriendsAsRecipient(recipients, friendID);
 		}
+		return recipients;
+	}
 
+	/**
+	 * Adds the given friend and the friend's friends as recipients
+	 * 
+	 * @param recipients
+	 * @param friendID
+	 */
+	private void addFriendAndFriendsAsRecipient(List<Integer> recipients, Integer friendID) {
+		if (memberIsValidRecipient(recipients, friendID)) {
+			recipients.add(friendID);
+			addFriendsOfFriend(recipients, friendID);
+		}
+	}
+
+	/**
+	 * Adds the given friend's friends as recipients
+	 * 
+	 * @param recipients
+	 * @param friendID
+	 */
+	private void addFriendsOfFriend(List<Integer> recipients, Integer friendID) {
+		Member member = mStore.getMember(friendID).get();
+		for (Integer fID : member.getFriends()) {
+			if (memberIsValidRecipient(recipients, fID)) {
+				recipients.add(fID);
+			}
+		}
 	}
 
 	/**
@@ -93,27 +119,21 @@ public class MemberImpl implements Member {
 	}
 
 	/**
-	 * send message to all members that can be reached via friend connections
+	 * {@inheritDoc}
 	 */
 	public void sendMessageV2(String msgContent) {
-		ArrayList<Integer> recipients = new ArrayList<Integer>();
-		for (Integer friend : getFriends()) {
-			addAllFriendsAsRecipient(recipients, friend);
-		}
-
-		sendMessage(msgContent, recipients, TypeOfMessage.V2);
+		sendMessage(msgContent, compileRecipientsListV2(), TypeOfMessage.V2);
 	}
 
 	/**
-	 * Adds the given member's ID to the list if not already present
-	 * 
-	 * @param recipients the list to add the given member's ID to
-	 * @param friend     the member to add to the list
+	 * @return the recipients list for a V2 message
 	 */
-	private void addAsRecipient(ArrayList<Integer> recipients, Integer friendId) {
-		if (!recipients.contains(friendId)) {
-			recipients.add(friendId);
+	private ArrayList<Integer> compileRecipientsListV2() {
+		ArrayList<Integer> recipients = new ArrayList<Integer>();
+		for (Integer friend : friends) {
+			addAllFriendsAsRecipient(recipients, friend);
 		}
+		return recipients;
 	}
 
 	/**
@@ -124,22 +144,36 @@ public class MemberImpl implements Member {
 	 * @param friend     the starting member
 	 */
 	private void addAllFriendsAsRecipient(ArrayList<Integer> recipients, Integer friendID) {
-		addAsRecipient(recipients, friendID);
-		Member member = mStore.getMember(friendID);
-		for (Integer fID : member.getFriends()) {
-			addAllFriendsAsRecipient(recipients, fID);
+		if (memberIsValidRecipient(recipients, friendID)) {
+			recipients.add(friendID);
+			Member member = mStore.getMember(friendID).get();
+			for (Integer fID : member.getFriends()) {
+				addAllFriendsAsRecipient(recipients, fID);
+			}
 		}
 	}
 
 	/**
-	 * @return a list of member IDs
+	 * A member is a valid recipient if it's a valid member in the member store and
+	 * it's neither the current member nor already in the recipient list
+	 * 
+	 * @param recipients the list of recipients
+	 * @param friendID   the id of the member to check
+	 * @return true if the given member is a valid recipient
+	 */
+	private boolean memberIsValidRecipient(List<Integer> recipients, Integer friendID) {
+		return !mStore.getMember(friendID).isEmpty() && !friendID.equals(memberId) && !recipients.contains(friendID);
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public List<Integer> getFriends() {
 		return friends;
 	}
 
 	/**
-	 * @return a list of all sent messages
+	 * {@inheritDoc}
 	 */
 	public List<Message> getMessages() {
 		List<Message> msgs = new ArrayList<>();

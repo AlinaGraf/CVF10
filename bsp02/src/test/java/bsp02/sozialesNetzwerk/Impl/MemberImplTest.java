@@ -146,7 +146,7 @@ public class MemberImplTest {
 
 	private void thenTheMessageWasSentToRecs(int i) {
 		List<Message> messages = m1.getMessages();
-		Assert.assertEquals(messages.size(), 1);
+		Assert.assertEquals(1, messages.size());
 
 		Message message = messages.get(0);
 		Assert.assertEquals(i, message.getNumberOfRecipients());
@@ -159,7 +159,10 @@ public class MemberImplTest {
 
 	private void givenFriendsAdded() {
 		addFriend(m1, m2);
+		addFriend(m2, m1);
 		addFriend(m2, m3);
+		addFriend(m3, m1);
+		addFriend(m3, m2);
 		addFriend(m3, m4);
 	}
 

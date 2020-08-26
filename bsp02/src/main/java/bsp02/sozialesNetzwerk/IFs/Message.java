@@ -3,11 +3,15 @@ package bsp02.sozialesNetzwerk.IFs;
 import bsp02.sozialesNetzwerk.Impl.TypeOfMessage;
 
 /**
+ * The Message class represents messages sent between friends. Messages are
+ * constant; their values cannot be changed after they are created(Message
+ * objects are immutable).
+ * 
  * @author alina
  *
  */
 public interface Message {
-	
+
 	/**
 	 * @return the number of recipients
 	 */
