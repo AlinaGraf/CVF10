@@ -2,6 +2,8 @@ package bsp02.sozialesNetzwerk.Impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import bsp02.sozialesNetzwerk.IFs.Member;
@@ -18,7 +20,7 @@ public class MemberStoreImpl implements MemberStore {
 	private Integer nextId = 0;
 
 	/** a map of all users, mapped to their unique ID */
-	private HashMap<Integer, Member> members = new HashMap<Integer, Member>();
+	private Map<Integer, Member> members = new HashMap<Integer, Member>();
 
 	/** randomizer used for getting a random member from the store */
 	private Random randomizer = new Random();
@@ -40,6 +42,8 @@ public class MemberStoreImpl implements MemberStore {
 		return single_instance;
 	}
 
+
+	
 	/**
 	 * Creates a new Member and adds it to the Store
 	 * 
@@ -50,6 +54,17 @@ public class MemberStoreImpl implements MemberStore {
 		members.put(nextId, newMember);
 		nextId++;
 		return newMember;
+	}
+	
+	
+	
+	/**
+	 * Returns the member with the given ID
+	 * @return the member with the given ID
+	 *@throws NullPointerException if the memberID does not exist
+	 */
+	public Member getMember(Integer memberID) {
+		return members.get(memberID);
 	}
 
 	/**
@@ -66,7 +81,7 @@ public class MemberStoreImpl implements MemberStore {
 	 * @param the maximum number of friends to filter the members by
 	 * @return the list of members filtered by number of friends
 	 */
-	public ArrayList<Member> getAllMembersWithMaxFriends(int maxNrOfFriends) {
+	public List<Member> getAllMembersWithMaxFriends(int maxNrOfFriends) {
 		ArrayList<Member> filteredMemberList = new ArrayList<Member>();
 		members.values().forEach(m -> {
 			if (m.getNumberOfFriends() <= maxNrOfFriends) {
@@ -82,7 +97,7 @@ public class MemberStoreImpl implements MemberStore {
 	 * @param the minimum number of friends to filter the members by
 	 * @return the list of members filtered by number of friends
 	 */
-	public ArrayList<Member> getAllMembersWithMinFriends(int minNrOfFriends) {
+	public List<Member> getAllMembersWithMinFriends(int minNrOfFriends) {
 		ArrayList<Member> filteredMemberList = new ArrayList<Member>();
 		members.values().forEach(m -> {
 			if (m.getNumberOfFriends() >= minNrOfFriends) {
@@ -95,7 +110,7 @@ public class MemberStoreImpl implements MemberStore {
 	/**
 	 * @return a list of all members in the MemberStore
 	 */
-	public ArrayList<Member> getAllMembers() {
+	public List<Member> getAllMembers() {
 		ArrayList<Member> allMembers = new ArrayList<Member>();
 		allMembers.addAll(members.values());
 		return allMembers;

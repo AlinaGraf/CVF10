@@ -3,10 +3,7 @@
  */
 package bsp02.sozialesNetzwerk.Impl;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -22,8 +19,8 @@ import bsp02.sozialesNetzwerk.IFs.MemberStore;
  */
 public class MemberStoreImplTest {
 
-	private MemberStore ms = MemberStoreImpl.getInstance();
-	private ArrayList<Member> filteredMemberList;
+	private final MemberStore ms = MemberStoreImpl.getInstance();
+	private List<Member> filteredMemberList;
 
 	/**
 	 * 
@@ -54,6 +51,21 @@ public class MemberStoreImplTest {
 		Assert.assertSame(1, m2.getId());
 		Member m3 = ms.addNewMember();
 		Assert.assertSame(2, m3.getId());
+	}
+
+	/**
+	 * Test method for
+	 * {@link bsp02.sozialesNetzwerk.Impl.MemberStoreImpl#getMember()}.
+	 */
+	@Test
+	public void testGetMember() {
+		Member m1 = ms.addNewMember();
+		Member m2 = ms.addNewMember();
+		Member m3 = ms.addNewMember();
+		Assert.assertSame(m1, ms.getMember(m1.getId()));
+		Assert.assertSame(m2, ms.getMember(m2.getId()));
+		Assert.assertSame(m3, ms.getMember(m3.getId()));
+
 	}
 
 	/**
@@ -125,7 +137,6 @@ public class MemberStoreImplTest {
 		thenTheNumberOfMembersIs(nrMem);
 	}
 
-	
 	/**
 	 * Test method for
 	 * {@link bsp02.sozialesNetzwerk.Impl.MemberStoreImpl#getAllMembers()}.
@@ -142,11 +153,10 @@ public class MemberStoreImplTest {
 		whenGetAllMembersIsCalled();
 		thenTheTotalNumberOfMembersIs(2);
 	}
-	
+
 	private void whenRemoveAllMembersIsCalled() {
 		ms.removeAllMembers();
-		
-		
+
 	}
 
 	private void whenGetAllMembersWithMinFriendsCalled(int nrFriends) {
@@ -164,7 +174,7 @@ public class MemberStoreImplTest {
 	}
 
 	private void givenXMembersHaveYFriends(int nrMem, int nrFriends) {
-		ArrayList<Member> allMembers = ms.getAllMembers();
+		List<Member> allMembers = ms.getAllMembers();
 		for (int i = 0; i < nrMem; i++) {
 			Member m = allMembers.get(i);
 
@@ -172,7 +182,7 @@ public class MemberStoreImplTest {
 				if (m.getNumberOfFriends() >= nrFriends) {
 					break;
 				}
-				m.addFriend(allMembers.get(j).getId());
+				m.addFriend(allMembers.get(j));
 			}
 		}
 	}
