@@ -2,6 +2,8 @@ package bsp01.zahlenschloss.Impls;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import bsp01.zahlenschloss.IFs.Combination;
@@ -42,7 +44,7 @@ public class CombinationGeneratorImpl implements CombinationGenerator {
 	 *         #turns
 	 */
 	public CombinationProposal generateCombinations(Combination currentCombination) {
-		HashMap<Integer, ArrayList<Combination>> hm = getAllCombinations(currentCombination);
+		Map<Integer, List<Combination>> hm = getAllCombinations(currentCombination);
 		Integer minTurns = getMinimum(hm.keySet());
 		return new CombinationProposalImpl(hm.get(minTurns), minTurns);
 	}
@@ -52,9 +54,8 @@ public class CombinationGeneratorImpl implements CombinationGenerator {
 	 * @return all possible combinations mapped to the number of turns needed to get
 	 *         to them
 	 */
-	private HashMap<Integer, ArrayList<Combination>> getAllCombinations(Combination currentCombination) {
-		HashMap<Integer, ArrayList<Combination>> combinations = new HashMap<Integer, ArrayList<Combination>>();
-
+	private Map<Integer, List<Combination>> getAllCombinations(Combination currentCombination) {
+		Map<Integer, List<Combination>> combinations = new HashMap<Integer, List<Combination>>();
 		if (checkAllDigitsAreSame(currentCombination)) {
 			addCurrentCombinationToResult(currentCombination, combinations);
 		} else {
@@ -70,8 +71,8 @@ public class CombinationGeneratorImpl implements CombinationGenerator {
 	 * @param combinations       the map of #turns to combinations
 	 */
 	private void addCurrentCombinationToResult(Combination currentCombination,
-			HashMap<Integer, ArrayList<Combination>> combinations) {
-		ArrayList<Combination> combs = new ArrayList<Combination>();
+			Map<Integer, List<Combination>> combinations) {
+		List<Combination> combs = new ArrayList<Combination>();
 		combs.add(currentCombination);
 		combinations.put(0, combs);
 	}
@@ -83,7 +84,7 @@ public class CombinationGeneratorImpl implements CombinationGenerator {
 	 * @param combinations       the map of #turns to combinations
 	 */
 	private void generateAllPossibleCombinations(Combination currentCombination,
-			HashMap<Integer, ArrayList<Combination>> combinations) {
+			Map<Integer, List<Combination>> combinations) {
 		for (Integer digit : allValidDigits) {
 			int nrOfTurns = getNrOfTurns(digit, currentCombination.getDigits());
 			if (!combinations.containsKey(nrOfTurns)) {
@@ -100,7 +101,7 @@ public class CombinationGeneratorImpl implements CombinationGenerator {
 	 * @param targetDigit              the digit to turn to
 	 * @param currentCombinationDigits the current values of the lock
 	 */
-	private int getNrOfTurns(Integer targetDigit, ArrayList<Integer> currentCombinationDigits) {
+	private int getNrOfTurns(Integer targetDigit, List<Integer> currentCombinationDigits) {
 		Integer nrOT = 0;
 		for (Integer d : currentCombinationDigits) {
 			nrOT += getMinTurns(targetDigit, d);
@@ -168,7 +169,7 @@ public class CombinationGeneratorImpl implements CombinationGenerator {
 	 * @return true if all digits of the combination are the same, false otherwise
 	 */
 	private boolean checkAllDigitsAreSame(Combination currentCombination) {
-		ArrayList<Integer> digits = currentCombination.getDigits();
+		List<Integer> digits = currentCombination.getDigits();
 		return digits.get(0).equals(digits.get(1)) && digits.get(2).equals(digits.get(3))
 				&& digits.get(0).equals(digits.get(3));
 	}

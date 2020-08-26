@@ -1,6 +1,7 @@
 package bsp01.zahlenschloss.Impls;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import bsp01.zahlenschloss.IFs.Combination;
 import bsp01.zahlenschloss.IFs.CombinationProposal;
@@ -15,21 +16,21 @@ import bsp01.zahlenschloss.IFs.CombinationProposal;
 public class CombinationProposalImpl implements CombinationProposal {
 
 	/** a list of one or more combinations */
-	private ArrayList<Combination> combinations;
+	private final List<Combination> combinations;
 
 	/** the minimum number of turns to reach the combinations */
-	private int numberOfTurns;
+	private final int numberOfTurns;
 
 	/**
 	 * Creates a new combinationProposal containing a list of one or more
 	 * combinations and the number of turns needed to reach them
 	 * 
-	 * @param combinations  list of Combinations
+	 * @param list          list of Combinations
 	 * @param numberOfTurns the min. number of turns needed to reach the
 	 *                      combinations
 	 */
-	public CombinationProposalImpl(ArrayList<Combination> combinations, int numberOfTurns) {
-		this.combinations = combinations;
+	public CombinationProposalImpl(List<Combination> list, int numberOfTurns) {
+		this.combinations = list;
 		this.numberOfTurns = numberOfTurns;
 	}
 
@@ -38,7 +39,7 @@ public class CombinationProposalImpl implements CombinationProposal {
 	 * 
 	 * @return a list of combinations
 	 */
-	public ArrayList<Combination> getCombinations() {
+	public List<Combination> getCombinations() {
 		return combinations;
 	}
 

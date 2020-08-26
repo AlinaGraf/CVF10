@@ -1,6 +1,6 @@
 package bsp01.zahlenschloss.IFs;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Lock Combination with 4 digits
@@ -12,6 +12,6 @@ public interface Combination {
 	/**
 	 * @return a list of all the digits of the combination
 	 */
-	ArrayList<Integer> getDigits();
+	List<Integer> getDigits();
 	
 }
